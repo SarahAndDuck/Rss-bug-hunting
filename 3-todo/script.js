@@ -9,6 +9,7 @@ const filterButtons = document.querySelectorAll(".filter");
 let tasks = [];
 let currentFilter = "all";
 let nextId = 1;
+let countActiveTask = 0;
 
 function addTask() {
   const text = input.value;
@@ -21,12 +22,14 @@ function addTask() {
   tasks.push({ id: nextId++, text: text, done: false });
 
   input.value = "";
+  countActiveTask++
   render();
 }
 
 function toggleTask(id) {
   const task = tasks.find((t) => t.id === id);
-
+  if (task.done) countActiveTask++
+  else countActiveTask--
   task.done = !task.done;
   render();
 }
@@ -34,6 +37,7 @@ function toggleTask(id) {
 function deleteTask(id) {
   const newTasks = tasks.filter((t) => t.id !== id);
   tasks = [...newTasks]
+  countActiveTask--
   render();
 }
 
@@ -47,7 +51,7 @@ function getVisibleTasks() {
 }
 
 function updateCounter() {
-  counter.textContent = "Активных задач: " + tasks.length;
+  counter.textContent = "Активных задач: " + countActiveTask;
 }
 
 function render() {
