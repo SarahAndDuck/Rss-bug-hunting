@@ -60,25 +60,27 @@ function render() {
   list.replaceChildren()
   for (let i = 0; i <= visible.length - 1; i++) {
     const task = visible[i];
-    const li = document.createElement("li");
-    li.className = "task";
-    if (task.done) {
-      li.classList.add("done");
+    if (!task.done && currentFilter === 'active' || task.done && currentFilter === 'done' || currentFilter === 'all') {
+      const li = document.createElement("li");
+      li.className = "task";
+      if (task.done) {
+        li.classList.add("done");
+      }
+
+      const span = document.createElement("span");
+      span.className = "task__text";
+      span.textContent = task.text;
+      span.addEventListener("click", () => toggleTask(task.id));
+
+      const del = document.createElement("button");
+      del.className = "task__del";
+      del.textContent = "✕";
+      del.addEventListener("click", () => deleteTask(task.id));
+
+      li.appendChild(span);
+      li.appendChild(del);
+      list.appendChild(li);
     }
-
-    const span = document.createElement("span");
-    span.className = "task__text";
-    span.textContent = task.text;
-    span.addEventListener("click", () => toggleTask(task.id));
-
-    const del = document.createElement("button");
-    del.className = "task__del";
-    del.textContent = "✕";
-    del.addEventListener("click", () => deleteTask(task.id));
-
-    li.appendChild(span);
-    li.appendChild(del);
-    list.appendChild(li);
   }
   updateCounter();
 }
