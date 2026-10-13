@@ -17,9 +17,9 @@ function addTask() {
     return
   }
   errorEl.hidden = true;
-  console.log('до', tasks);
+
   tasks.push({ id: nextId++, text: text, done: false });
-  console.log('после', tasks);
+
   input.value = "";
   render();
 }
@@ -31,7 +31,8 @@ function toggleTask(id) {
 }
 
 function deleteTask(id) {
-  tasks.filter((t) => t.id !== id);
+  const newTasks = tasks.filter((t) => t.id !== id);
+  tasks = [...newTasks]
   render();
 }
 
