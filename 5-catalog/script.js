@@ -30,6 +30,15 @@ function getFiltered() {
   if (category !== "all") {
     result = products.filter((p) => p.category !== category);
   }
+  if (category == "phone") {
+    result = products.filter((p) => p.category == category);
+  }
+  if (category == "laptop") {
+    result = products.filter((p) => p.category == category);
+  }
+  if (category == "audio") {
+    result = products.filter((p) => p.category == category);
+  }
 
   if (sort === "asc") {
     result.sort((a, b) => b.price - a.price);
