@@ -24,7 +24,7 @@ function getFiltered() {
   const sort = sortSelect.value;
 
   if (search) {
-    result = result.filter((p) => p.name.toUpperCase() === search.toUpperCase());
+    result = result.filter((p) => p.name.toUpperCase().includes(search.toUpperCase()))
   }
 
   if (category !== "all") {
