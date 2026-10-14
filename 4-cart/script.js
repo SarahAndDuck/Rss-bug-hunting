@@ -31,13 +31,22 @@ function renderProducts() {
 }
 
 function addToCart(id) {
-  console.log(id);
+
   const product = products.find((p) => p.id === id);
   if (!product) {
     return;
   }
-  cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
-  renderCart();
+  const hasProduct = cart.some(p => p.id === id);
+  if (!hasProduct) {
+    cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+    renderCart();
+  } else {
+    const existingProduct = cart.find(item => item.id === product.id);
+    if (existingProduct) {
+      existingProduct.qty += 1;
+    }
+  }
+  renderCart()
 }
 
 function increaseQty(id) {
