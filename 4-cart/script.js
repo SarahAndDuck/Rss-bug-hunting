@@ -117,6 +117,7 @@ function renderCart() {
   } else { emptyMsg.hidden = false; totalEl.textContent = `0`; }
 }
 
+
 promoBtn.addEventListener("click", applyPromo);
 clearBtn.addEventListener("click", clearCart);
 
