@@ -18,7 +18,7 @@ const countEl = document.getElementById("count");
 
 
 function getFiltered() {
-  let result = products;
+  let result = [...products];
   const search = searchInput.value;
   const category = categorySelect.value;
   const sort = sortSelect.value;
@@ -40,6 +40,7 @@ function getFiltered() {
     result = products.filter((p) => p.category == category);
   }
 
+  console.log(sort);
   if (sort === "asc") {
     result.sort((a, b) => a.price - b.price);
   } else if (sort === "desc") {
@@ -60,6 +61,7 @@ function render() {
   });
   countEl.textContent = products.length;
 }
+
 render()
 searchInput.addEventListener("input", render);
 categorySelect.addEventListener("change", render);
