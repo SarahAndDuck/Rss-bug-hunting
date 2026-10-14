@@ -111,7 +111,10 @@ function renderCart() {
 
   badgeEl.textContent = totalBadgeEl;
   totalEl.textContent = total;
-  emptyMsg.hidden = true;
+  if (cart.length) {
+    emptyMsg.hidden = false;
+
+  } else { emptyMsg.hidden = false; totalEl.textContent = `0`; }
 }
 
 promoBtn.addEventListener("click", applyPromo);
