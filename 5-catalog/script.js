@@ -16,6 +16,7 @@ const resetBtn = document.getElementById("reset");
 const grid = document.getElementById("grid");
 const countEl = document.getElementById("count");
 
+
 function getFiltered() {
   let result = products;
   const search = searchInput.value;
@@ -23,7 +24,7 @@ function getFiltered() {
   const sort = sortSelect.value;
 
   if (search) {
-    result = result.filter((p) => p.name === search);
+    result = result.filter((p) => p.name.toUpperCase() === search.toUpperCase());
   }
 
   if (category !== "all") {
@@ -41,6 +42,7 @@ function getFiltered() {
 
 function render() {
   const items = getFiltered();
+  grid.replaceChildren()
   items.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card";
@@ -49,7 +51,7 @@ function render() {
   });
   countEl.textContent = products.length;
 }
-
+render()
 searchInput.addEventListener("input", render);
 categorySelect.addEventListener("change", render);
 sortSelect.addEventListener("change", render);
