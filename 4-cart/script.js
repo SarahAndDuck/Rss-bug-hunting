@@ -51,7 +51,9 @@ function addToCart(id) {
 
 function increaseQty(id) {
   const item = cart.find((i) => i.id === id);
-  item.qty;
+  console.log(item);
+  item.qty++;
+  console.log(item.qty);
   renderCart();
 }
 
