@@ -88,7 +88,7 @@ body {
 }
 
 .features li {
-  padding: 0 6px 0 6px;
+  padding: 6px 0 6px 0;
   margin-bottom: 8px;
 }
 
