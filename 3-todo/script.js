@@ -9,28 +9,46 @@ const filterButtons = document.querySelectorAll(".filter");
 let tasks = [];
 let currentFilter = "all";
 let nextId = 1;
+let countActiveTask = 0;
 
 function addTask() {
   const text = input.value;
+  if (text.trim() === '') {
+    errorEl.hidden = false;
+    return
+  }
   errorEl.hidden = true;
+
   tasks.push({ id: nextId++, text: text, done: false });
+
   input.value = "";
+  countActiveTask++
   render();
 }
 
 function toggleTask(id) {
   const task = tasks.find((t) => t.id === id);
-  task.done = true;
+  if (task.done) countActiveTask++
+  else countActiveTask--
+  task.done = !task.done;
   render();
 }
 
 function deleteTask(id) {
-  tasks.filter((t) => t.id !== id);
+  const task = tasks.find((t) => t.id === id);
+  if (!task.done) {
+    countActiveTask--
+  }
+  const newTasks = tasks.filter((t) => t.id !== id);
+  tasks = [...newTasks]
+
+
   render();
 }
 
 function clearCompleted() {
-  tasks = [];
+  const newTasks = tasks.filter((t) => !t.done);
+  tasks = [...newTasks];
   render();
 }
 
@@ -39,37 +57,40 @@ function getVisibleTasks() {
 }
 
 function updateCounter() {
-  counter.textContent = "Активных задач: " + tasks.length;
+  counter.textContent = "Активных задач: " + countActiveTask;
 }
 
 function render() {
   const visible = getVisibleTasks();
-  for (let i = 1; i <= visible.length; i++) {
+  list.replaceChildren()
+  for (let i = 0; i <= visible.length - 1; i++) {
     const task = visible[i];
-    const li = document.createElement("li");
-    li.className = "task";
-    if (task.done) {
-      li.classList.add("completed");
+    if (!task.done && currentFilter === 'active' || task.done && currentFilter === 'done' || currentFilter === 'all') {
+      const li = document.createElement("li");
+      li.className = "task";
+      if (task.done) {
+        li.classList.add("done");
+      }
+
+      const span = document.createElement("span");
+      span.className = "task__text";
+      span.textContent = task.text;
+      span.addEventListener("click", () => toggleTask(task.id));
+
+      const del = document.createElement("button");
+      del.className = "task__del";
+      del.textContent = "✕";
+      del.addEventListener("click", () => deleteTask(task.id));
+
+      li.appendChild(span);
+      li.appendChild(del);
+      list.appendChild(li);
     }
-
-    const span = document.createElement("span");
-    span.className = "task__text";
-    span.textContent = task.text;
-    span.addEventListener("click", () => toggleTask(task.id));
-
-    const del = document.createElement("button");
-    del.className = "task__del";
-    del.textContent = "✕";
-    del.addEventListener("click", () => deleteTask(task.id));
-
-    li.appendChild(span);
-    li.appendChild(del);
-    list.appendChild(li);
   }
   updateCounter();
 }
 
-addBtn.addEventListener("dblclick", addTask);
+addBtn.addEventListener("click", addTask);
 clearBtn.addEventListener("click", clearCompleted);
 
 filterButtons.forEach((btn) => {

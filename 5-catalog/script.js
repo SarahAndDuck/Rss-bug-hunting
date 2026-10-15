@@ -16,44 +16,62 @@ const resetBtn = document.getElementById("reset");
 const grid = document.getElementById("grid");
 const countEl = document.getElementById("count");
 
+
 function getFiltered() {
-  let result = products;
+  let result = [...products];
   const search = searchInput.value;
   const category = categorySelect.value;
   const sort = sortSelect.value;
 
-  if (search) {
-    result = result.filter((p) => p.name === search);
-  }
+
 
   if (category !== "all") {
     result = products.filter((p) => p.category !== category);
   }
-
-  if (sort === "asc") {
-    result.sort((a, b) => b.price - a.price);
-  } else if (sort === "desc") {
-    result.sort((a, b) => a.price - b.price);
+  if (category == "phone") {
+    result = products.filter((p) => p.category == category);
+  }
+  if (category == "laptop") {
+    result = products.filter((p) => p.category == category);
+  }
+  if (category == "audio") {
+    result = products.filter((p) => p.category == category);
   }
 
+
+  if (sort === "asc") {
+    result.sort((a, b) => a.price - b.price);
+  } else if (sort === "desc") {
+    result.sort((a, b) => b.price - a.price);
+  }
+  if (search) {
+    result = result.filter((p) => p.name.toUpperCase().includes(search.toUpperCase()))
+
+  }
   return result;
 }
 
 function render() {
   const items = getFiltered();
+  grid.replaceChildren()
   items.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `<h3>${p.name}</h3><p class="cat">${p.category}</p><p class="price">$${p.price}</p>`;
     grid.appendChild(card);
   });
-  countEl.textContent = products.length;
+  countEl.textContent = items.length;
 }
 
+render()
 searchInput.addEventListener("input", render);
 categorySelect.addEventListener("change", render);
 sortSelect.addEventListener("change", render);
 
 resetBtn.addEventListener("click", () => {
   searchInput.value = "";
+  categorySelect.value = 'all'
+  sort.value = 'default'
+
+  render()
 });
