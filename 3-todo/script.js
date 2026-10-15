@@ -35,9 +35,14 @@ function toggleTask(id) {
 }
 
 function deleteTask(id) {
+  const task = tasks.find((t) => t.id === id);
+  if (!task.done) {
+    countActiveTask--
+  }
   const newTasks = tasks.filter((t) => t.id !== id);
   tasks = [...newTasks]
-  countActiveTask--
+
+
   render();
 }
 
