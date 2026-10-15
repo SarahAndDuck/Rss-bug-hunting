@@ -113,7 +113,7 @@ function renderCart() {
   badgeEl.textContent = totalBadgeEl;
   totalEl.textContent = total;
   if (cart.length) {
-    emptyMsg.hidden = false;
+    emptyMsg.hidden = true;
 
   } else { emptyMsg.hidden = false; totalEl.textContent = `0`; }
 }
